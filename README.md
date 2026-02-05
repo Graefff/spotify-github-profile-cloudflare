@@ -57,101 +57,66 @@ Please replace your old endpoint `https://spotify-github-profile.vercel.app` to 
 
 ![spotify-github-profile](/img/spotify-embed.svg)
 
-## Running for development locally without Vercel
+## Deployment to Cloudflare Workers
 
-To run the application locally without Vercel:
+The project has been migrated to Cloudflare Workers for better performance and zero-cost hosting.
 
-1. Copy `.env.example` to `.env` in the root directory and replace the placeholder values with your actual configuration.
+### Prerequisites
+- [Node.js](https://nodejs.org/) installed.
+- [Cloudflare Account](https://dash.cloudflare.com/).
+- [Spotify Developer Application](https://developer.spotify.com/dashboard).
 
-2. Install the required dependencies:
-   ```sh
-   pip install -r api/requirements.txt
-   ```
-
-3. Run the application:
-   ```sh
-   python api/app.py
-   ```
-
-4. Access the login page at http://localhost:3000/api/login
-
-Note: Ensure your Spotify app's redirect URI is set to `http://localhost:3000/api/callback` and `BASE_URL` in `.env` is set to `http://localhost:3000/api`.
-
-
-## Running for development locally with Vercel
-
-To develop locally, you need:
-
-- A fork of this project as your repository
-- A Vercel project connected with the forked repository
-- A Firebase project with Cloud Firestore setup
-- A Spotify developer account
-
-### Setting up Vercel
-
-- [Create a new Vercel project by importing](https://vercel.com/import) the forked project on GitHub
-
-### Setting up Firebase
-
-- Create [a new Firebase project](https://console.firebase.google.com/u/0/)
-- Create a new Cloud Firestore in the project
-- Download configuration JSON file from _Project settings_ > _Service accounts_ > _Generate new private key_
-- Convert private key content as BASE64
-  - You can use Encode/Decode extension in VSCode to do so
-  - This key will be used in step explained below
-
-### Setting up Spotify dev
-
-- Login to [developer.spotify.com](https://developer.spotify.com/dashboard/applications)
-- Create a new project
-- Edit settings to add _Redirect URIs_
-  - add `http://localhost:3000/api/callback`
-
-### Running locally
-
-- Install [Vercel command line](https://vercel.com/download) with `npm i -g vercel`
-- Create `.env` file at the root of the project 
-- Paste your keys in `SPOTIFY_CLIENT_ID`, `SPOTIFY_SECRET_ID`, and insert the name of your downloaded JSON file in `FIREBASE`
-
-
-```sh
-BASE_URL='http://localhost:3000/api'
-SPOTIFY_CLIENT_ID='____'
-SPOTIFY_SECRET_ID='____'
-FIREBASE='__BASE64_FIREBASE_JSON_FILE__'
+### Step 1: Install Dependencies
+Open your terminal in the project root and run:
+```bash
+npm install
 ```
 
-- Run `vercel dev`
-
-```sh
-$ vercel dev
-Vercel CLI 20.1.2 dev (beta) — https://vercel.com/feedback
-> Ready! Available at http://localhost:3000
+### Step 2: Login to Cloudflare
+```bash
+npx wrangler login
 ```
 
-- Now try to access http://localhost:3000/api/login
-
-### Run unittest
-
-- Run all tests
-```sh
-pytest tests/ -v
+### Step 3: Create Database (KV Namespace)
+```bash
+npx wrangler kv:namespace create SPOTIFY_TOKENS
+```
+Copy the `id` from the output and update `wrangler.toml`:
+```toml
+[[kv_namespaces]]
+binding = "SPOTIFY_TOKENS"
+id = "PASTE_YOUR_ID_HERE" 
 ```
 
-- Run tests with coverage
-```sh
-pytest tests/ --cov=api --cov-report=html
+### Step 4: Set Secrets
+Add your Spotify Client ID and Secret to Cloudflare's encrypted storage (or via Dashboard > Settings > Environment Variables):
+```bash
+npx wrangler secret put SPOTIFY_CLIENT_ID
+npx wrangler secret put SPOTIFY_SECRET_ID
 ```
 
-- Run specific test file
-```sh
-pytest tests/test_api_view.py -v
+### Option 1: Deploy via CLI
+```bash
+npm run deploy
 ```
 
-- Run with maxfail (like CI)
-```sh
-pytest tests/ --maxfail=5 --disable-warnings -v
+### Option 2: Deploy via Cloudflare Dashboard (Git Integration)
+1.  **Push** your code to GitHub.
+2.  **Connect** in Cloudflare Dashboard > Workers & Pages > Create > Connect to Git.
+3.  **Configure**:
+    -   **Build Settings**: Default.
+4.  **Important**: You must manually add `SPOTIFY_CLIENT_ID` and `SPOTIFY_SECRET_ID` in the Dashboard under **Settings > Variables**.
+
+### Final Configuration
+1.  Get your Worker URL (e.g., `https://spotify-github-profile.username.workers.dev`).
+2.  Go to [Spotify Dashboard](https://developer.spotify.com/dashboard) > App Settings.
+3.  Add Redirect URI: `https://YOUR_WORKER_URL/callback`.
+
+## Running Locally
+```bash
+npm run dev
 ```
+(Requires creating a local `.dev.vars` file or passing secrets if not logged in).
 
 ## How to Contribute
 
