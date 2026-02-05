@@ -4,6 +4,9 @@ Create Spotify now playing card on your github profile
 
 Running on Cloudflare Workers, storing data in Cloudflare KV (access_token, refresh_token).
 
+
+> **Warning**: Currently, Spotify has paused access to their API for new applications, making it impossible to create new deployments temporarily. As of February 2026, the API is still unavailable.
+
 ## Example
 
 - Default theme
