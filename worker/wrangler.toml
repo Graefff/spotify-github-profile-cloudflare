@@ -1,0 +1,16 @@
+name = "spotify-github-profile"
+main = "src/index.ts"
+compatibility_date = "2024-02-08"
+
+# KV Namespace for storing tokens
+# Run `npx wrangler kv:namespace create SPOTIFY_TOKENS` to generate an ID
+[[kv_namespaces]]
+binding = "SPOTIFY_TOKENS"
+id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # Placeholder
+preview_id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" # Placeholder
+
+[vars]
+# Environment variables will be set here or in dashboard
+# SPOTIFY_CLIENT_ID = "..."
+# SPOTIFY_SECRET_ID = "..."
+# SPOTIFY_REDIRECT_URI = "..."
