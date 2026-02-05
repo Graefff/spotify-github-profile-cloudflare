@@ -87,10 +87,7 @@ If you prefer determining deployments via GitHub pushes instead of the CLI, foll
 ### 3. Configure the Build
 1.  **Project Name**: `spotify-github-profile` (or whatever you prefer).
 2.  **Production Branch**: `main` (or `master`).
-3.  **Root Directory**: ⚠️ **IMPORTANT** ⚠️
-    -   You MUST set this to: `worker`
-    -   (Because your worker code is inside the `worker/` folder, not the root).
-4.  **Build Settings**: Leave as default (Cloudflare detects `wrangler.toml`).
+3.  **Build Settings**: Leave as default (Cloudflare detects `wrangler.toml`).
 
 ### 4. Set Secrets (Environment Variables)
 Before clicking "Save and Deploy" (or immediately after failure):
