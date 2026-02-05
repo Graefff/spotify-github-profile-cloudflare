@@ -2,34 +2,7 @@
 
 Create Spotify now playing card on your github profile
 
-Running on Vercel serverless function, store data in Firebase (store only access_token, refresh_token, token_expired_timestamp)
-
-## Annoucements
-
-**2024-06-21**
-
-Vercel change the package the free tier is not enough for our usage. I moved service to self-host at Digital Ocean.
-
-Please replace your old endpoint `https://spotify-github-profile.vercel.app` to `https://spotify-github-profile.kittinanx.com`
-
-## Table of Contents  
-[Connect And Grant Permission](#connect-and-grant-permission)  
-[Example](#example)  
-[Running for development locally](#running-for-development-locally)  
-[Setting up Vercel](#setting-up-vercel)  
-[Setting up Firebase](#setting-up-firebase)  
-[Setting up Spotify dev](#setting-up-spotify-dev)  
-[Running locally](#running-locally)  
-[How to Contribute](#how-to-contribute)  
-[Known Bugs](#known-bugs)  
-[Features in Progress](#features-in-progress)  
-[Credit](#credit)  
-
-## Connect And Grant Permission
-
-- Click `Connect with Spotify` button below to grant permission
-
-[<img src="/img/btn-spotify.png">](https://spotify-github-profile.kittinanx.com/api/login)
+Running on Cloudflare Workers, storing data in Cloudflare KV (access_token, refresh_token).
 
 ## Example
 
@@ -111,25 +84,6 @@ npm run deploy
 1.  Get your Worker URL (e.g., `https://spotify-github-profile.username.workers.dev`).
 2.  Go to [Spotify Dashboard](https://developer.spotify.com/dashboard) > App Settings.
 3.  Add Redirect URI: `https://YOUR_WORKER_URL/callback`.
-
-## Running Locally
-```bash
-npm run dev
-```
-(Requires creating a local `.dev.vars` file or passing secrets if not logged in).
-
-## How to Contribute
-
-- Develop locally and submit a pull request!
-- Submit newly encountered bugs to the [Issues](https://github.com/kittinan/spotify-github-profile/issues) page
-- Submit feature suggestions to the [Issues](https://github.com/kittinan/spotify-github-profile/issues) page, with the label [Feature Suggestion]
-
-## Known Bugs
-
-[404/500 Error when playing local files](https://github.com/kittinan/spotify-github-profile/issues/19)
-
-## Other Platforms
-- [Apple Music GitHub Profile](https://github.com/rayriffy/apple-music-github-profile)
 
 ## Credit
 
